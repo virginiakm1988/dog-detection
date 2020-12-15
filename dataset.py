@@ -93,7 +93,7 @@ class SiamDataset(Dataset):
         self.transform = transforms.Compose([
             
             transforms.ToPILImage(),
-            
+            transforms.Compose([transforms.Scale((500,500))]),
             transforms.CenterCrop(400),
             transforms.RandomHorizontalFlip(), # 隨機將圖片水平翻轉
             transforms.RandomRotation(30), # 隨機旋轉圖片
@@ -104,7 +104,7 @@ class SiamDataset(Dataset):
         ])
         self.test_transform = transforms.Compose([
             transforms.ToPILImage(),
-            #
+            transforms.Compose([transforms.Scale((500,500))]),
             transforms.CenterCrop(400),
             transforms.Compose([transforms.Scale((img_size,img_size))]),
             transforms.ToTensor(), # 將圖片轉成 Tensor，並把數值 normalize 到 [0,1] (data normalization)
@@ -163,7 +163,7 @@ class SiamDataset(Dataset):
         
         # here I gave a smaller length than the real dataset's length so that the training can be faster
         if self.mode == "training":
-            return 200
+            return 128
         else:
             return 10
 
