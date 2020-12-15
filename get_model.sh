@@ -1,0 +1,1 @@
+wget -O model.pkl  https://www.dropbox.com/s/du2orcfllaawap9/Siamese%20model.pkl?dl=0 

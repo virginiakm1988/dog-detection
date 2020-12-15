@@ -19,6 +19,7 @@ class SiamDataset(Dataset):
     
     def __init__(self, mode = "training", dir = "./"):
         path = dir
+       # print(dir)
         # We import the MNIST dataset that is pre formatted and kept as a csv file 
         # in which each row contains a single image flattened out to 784 pixels
         # so each row contains 784 entries
@@ -30,32 +31,57 @@ class SiamDataset(Dataset):
         teest_labels = []
         self.mode = mode
         
-        
+        self.data_mode = "segmented"
 
         for id in range(1,20):
           temp = []
           test_temp = []
           if id < 10:
             files= glob.glob(os.path.join(path,"dog0"+str(id)+"*/dog*/*.bmp"))
+            if len(files) < 2:
+              files= glob.glob(os.path.join(path,"000"+str(id)+"/*PNG"))
+              self.data_mode = "ROI"
+
+
           else:
             files = glob.glob(os.path.join(path,"dog"+str(id)+"*/dog*/*.bmp"))
+            if len(files) < 2:
+              print(True,path,"/00"+str(id)+"/*PNG")
+              files= glob.glob(os.path.join(path,"00"+str(id)+"/*PNG"))
+              self.data_mode = "ROI"
+          #print(files)
           for filename in files:
             filenames.append(filename)
             temp.append(filename)
             labels.append(id)
-            #print(id, filename)
+
+          print(filenames)
+
+          
+
           if mode == "training":
             temp = temp[:18]
             labels = labels[:18]
             test_temp = temp[18:]
             test_labels = labels[18:]
+
+            if self.data_mode == 'ROI':
+              temp = temp[:3]
+              labels = labels[:3]
+
+              
+              test_temp = temp[3:]
+              test_labels = labels[3:]
           
           else:
-            temp = temp[18:]
-            labels = labels[18:]
-          
-
-          #print(id, " length", len(temp))
+            
+            if self.data_mode == 'ROI':
+              temp = temp[3:]
+              labels = labels[3:]
+            else:
+              temp = temp[18:]
+              labels = labels[18:]
+          print(id,self.data_mode, " length", len(temp))
           img.append(temp)
           test_img.append(test_temp)
         
