@@ -4,6 +4,10 @@
 ```
 bash get_dataset.sh
 ```
+## get sample model
+```
+bash get_model.sh
+```
 
 ## train
 ```
