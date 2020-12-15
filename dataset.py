@@ -30,10 +30,11 @@ class SiamDataset(Dataset):
         test_img = []
         teest_labels = []
         self.mode = mode
+        self.id_num = 60
         
         self.data_mode = "segmented"
 
-        for id in range(1,20):
+        for id in range(1,self.id_num):
           temp = []
           test_temp = []
           if id < 10:
@@ -55,7 +56,7 @@ class SiamDataset(Dataset):
             temp.append(filename)
             labels.append(id)
 
-          print(filenames)
+          #print(filenames)
 
           
 
@@ -113,7 +114,7 @@ class SiamDataset(Dataset):
     
     def __getitem__(self, idx):
    
-        clas = np.random.randint(0,19)
+        clas = np.random.randint(0,self.id_num-1)
         length = len(self.img[clas])
         im1, im2 = np.random.randint(0,length,2)
         if self.mode =="testing":

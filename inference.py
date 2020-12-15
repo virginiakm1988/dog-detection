@@ -60,4 +60,4 @@ siam_test.eval()
 for data in test_dataloader:
     im1, im2 = data
     diss = siam_test.evaluate(im1.cuda(),im2.cuda())
-    print(bool(diss < float(threshold)))
+    print(diss, bool(diss < float(threshold)))
