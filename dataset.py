@@ -97,7 +97,8 @@ class SiamDataset(Dataset):
             transforms.CenterCrop(400),
             transforms.RandomHorizontalFlip(), # 隨機將圖片水平翻轉
             transforms.RandomRotation(30), # 隨機旋轉圖片
-            transforms.RandomResizedCrop(img_size, scale=(0.9, 1.0), ratio=(0.95, 1.3333333333333333), interpolation=2),
+            transforms.Compose([transforms.Scale((img_size,img_size))]),
+            #transforms.RandomResizedCrop(img_size, scale=(0.9, 1.0), ratio=(0.95, 1.3333333333333333), interpolation=2),
 
             transforms.ToTensor(), # 將圖片轉成 Tensor，並把數值 normalize 到 [0,1] (data normalization)
         ])
