@@ -30,10 +30,11 @@ class SiamDataset(Dataset):
         test_img = []
         teest_labels = []
         self.mode = mode
+        self.id_num = 60
         
         self.data_mode = "segmented"
 
-        for id in range(1,20):
+        for id in range(1,self.id_num):
           temp = []
           test_temp = []
           if id < 10:
@@ -55,7 +56,7 @@ class SiamDataset(Dataset):
             temp.append(filename)
             labels.append(id)
 
-          print(filenames)
+          #print(filenames)
 
           
 
@@ -93,7 +94,7 @@ class SiamDataset(Dataset):
         self.transform = transforms.Compose([
             
             transforms.ToPILImage(),
-            
+            transforms.Compose([transforms.Scale((500,500))]),
             transforms.CenterCrop(400),
             transforms.RandomHorizontalFlip(), # 隨機將圖片水平翻轉
             transforms.RandomRotation(30), # 隨機旋轉圖片
@@ -104,7 +105,7 @@ class SiamDataset(Dataset):
         ])
         self.test_transform = transforms.Compose([
             transforms.ToPILImage(),
-            #
+            transforms.Compose([transforms.Scale((500,500))]),
             transforms.CenterCrop(400),
             transforms.Compose([transforms.Scale((img_size,img_size))]),
             transforms.ToTensor(), # 將圖片轉成 Tensor，並把數值 normalize 到 [0,1] (data normalization)
@@ -113,7 +114,7 @@ class SiamDataset(Dataset):
     
     def __getitem__(self, idx):
    
-        clas = np.random.randint(0,19)
+        clas = np.random.randint(0,self.id_num-1)
         length = len(self.img[clas])
         im1, im2 = np.random.randint(0,length,2)
         if self.mode =="testing":
@@ -163,7 +164,7 @@ class SiamDataset(Dataset):
         
         # here I gave a smaller length than the real dataset's length so that the training can be faster
         if self.mode == "training":
-            return 200
+            return 128
         else:
             return 10
 
