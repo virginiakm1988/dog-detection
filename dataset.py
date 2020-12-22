@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 import warnings
 warnings.simplefilter("ignore", UserWarning)
-
+triplet_loss = nn.TripletMarginLoss(margin=1.0, p=2)
 
 img_size = 128
 class SiamDataset(Dataset):
@@ -30,9 +30,14 @@ class SiamDataset(Dataset):
         test_img = []
         teest_labels = []
         self.mode = mode
-        self.id_num = 60
+        if "segmented" in dir:
+          self.data_mode = "segmented"
+          self.id_num = 20
+        elif "ROI" in dir:
+          self.data_mode = "ROI"
+          self.id_num = 60
         
-        self.data_mode = "segmented"
+        
 
         for id in range(1,self.id_num):
           temp = []
