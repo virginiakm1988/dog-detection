@@ -72,14 +72,19 @@ class Siamese(nn.Module):
     def evaluate(self, x, y):
         
         # this can be used later for evalutation
-        
-        m = to.tensor(1.0, dtype=to.float32).cuda()
-        
-        if type(m) != type(x):
-            x = to.tensor(x, dtype = to.float32, requires_grad = False).cuda()
-            
-        if type(m) != type(y):
-            y = to.tensor(y, dtype = to.float32, requires_grad = False).cuda()
+
+        if to.cuda.is_available():
+            m = to.tensor(1.0, dtype=to.float32).cuda()
+            if type(m) != type(x):
+                x = to.tensor(x, dtype = to.float32, requires_grad = False).cuda()
+            if type(m) != type(y):
+                y = to.tensor(y, dtype = to.float32, requires_grad = False).cuda()
+        else:
+            m = to.tensor(1.0, dtype=to.float32).cpu()
+            if type(m) != type(x):
+                x = to.tensor(x, dtype = to.float32, requires_grad = False).cpu()
+            if type(m) != type(y):
+                y = to.tensor(y, dtype = to.float32, requires_grad = False).cpu()
         
         x = x.view(-1,3,128,128)
         y = y.view(-1,3,128,128)
