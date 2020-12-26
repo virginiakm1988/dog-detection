@@ -17,7 +17,7 @@ warnings.simplefilter("ignore", UserWarning)
 img_size = 128
 class SiamDataset(Dataset):
     
-    def __init__(self, mode = "training", dir = "./"):
+    def __init__(self, mode = "train", dir = "./"):
         path = dir
        # print(dir)
         # We import the MNIST dataset that is pre formatted and kept as a csv file 
@@ -60,7 +60,7 @@ class SiamDataset(Dataset):
 
           
 
-          if mode == "training":
+          if mode == "train":
             temp = temp[:18]
             labels = labels[:18]
             test_temp = temp[18:]
@@ -90,7 +90,7 @@ class SiamDataset(Dataset):
         self.labels = labels
         self.img = img
         self.test_img = test_img
-        # training 時做 data augmentation
+        # train 時做 data augmentation
         self.transform = transforms.Compose([
             
             transforms.ToPILImage(),
@@ -162,8 +162,8 @@ class SiamDataset(Dataset):
             
     def __len__(self):
         
-        # here I gave a smaller length than the real dataset's length so that the training can be faster
-        if self.mode == "training":
+        # here I gave a smaller length than the real dataset's length so that the train can be faster
+        if self.mode == "train":
             return 128
         else:
             return 10
