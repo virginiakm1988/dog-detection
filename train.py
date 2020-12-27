@@ -107,7 +107,7 @@ for epoch in range(start,start+number_epochs):
         val_neg_loss += loss_neg.cpu()
         val_loss += (loss_pos.cpu() + loss_neg.cpu())
     
-    # printing the train errors
+    # printing the train-20 errors
     if val_pos_loss + val_neg_loss < min_loss:
         min_loss = val_neg_loss+val_pos_loss
         torch.save(siam.state_dict(), os.path.join(output_dir,"model.pkl"))
